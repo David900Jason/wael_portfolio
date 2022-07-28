@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
-
 html {
   scroll-behavior: smooth;
 }
@@ -57,11 +56,17 @@ html {
 }
 .screen img {
   margin: 0 auto;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1);
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 65%;
+  width: 80vw;
+  height: 90vh;
+  transition: transform 0.6s;
+}
+.screen img.collapse {
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.6s;
 }
 
 *, ::before, *::after {
@@ -145,28 +150,32 @@ label {
   top: auto;
   left: auto;
   text-align: center;
-  font-size: var(--fs-150);
   line-height: var(--fs-150);
   margin-bottom: 8rem;
 }
+@media (min-width: 1200px) {
+  .heading {
+    font-size: 22ch;
+  }
+}
 @media (max-width: 1199px) {
   .heading {
-    font-size: 18rem;
+    font-size: 18ch;
   }
 }
 @media (max-width: 991px) {
   .heading {
-    font-size: 14rem;
+    font-size: 14ch;
   }
 }
 @media (max-width: 767px) {
   .heading {
-    font-size: 12rem;
+    font-size: 10ch;
   }
 }
 @media (max-width: 640px) {
   .heading {
-    font-size: 8rem;
+    font-size: 6ch;
   }
 }
 .heading::before {
@@ -183,25 +192,10 @@ label {
 }
 .heading:hover::before {
   top: 50%;
+  font-size: 100%;
   transform: translate(-50%, -50%);
-  font-size: var(--fs-150);
-  line-height: var(--fs-150);
+  transition: top var(--trs-duration-s) var(--trs-duration-s), font-size var(--trs-duration-s) 0s;
   transition-delay: 0s, var(--trs-duration-s);
-}
-@media (max-width: 1199px) {
-  .heading:hover::before {
-    font-size: 18rem;
-  }
-}
-@media (max-width: 991px) {
-  .heading:hover::before {
-    font-size: 14rem;
-  }
-}
-@media (max-width: 767px) {
-  .heading:hover::before {
-    font-size: 12rem;
-  }
 }
 @media (max-width: 640px) {
   .heading::before {
@@ -349,13 +343,13 @@ header nav .logo img {
   width: 6rem;
   margin-right: 1.5rem;
   transition: transform var(--trs-duration-f);
-  animation: rotate 5s infinite forwards linear;
 }
 header nav .logo h2 {
   line-height: 95px;
   font-size: var(--fs-600);
-  font-weight: bold;
-  letter-spacing: -2px;
+  font-weight: normal;
+  letter-spacing: -4px;
+  font-style: italic;
 }
 header nav .links {
   flex-basis: fit-content;
@@ -409,22 +403,33 @@ header nav #dropdown-icon {
 }
 .landing {
   height: 100vh;
-  background-image: linear-gradient(to bottom, var(--clr-neutral-200), var(--clr-neutral-400));
-  background-color: #000;
+  background-image: url("../assets/landing_background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   position: relative;
   z-index: 2;
+}
+.landing::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
 }
 .landing .container {
   height: 100%;
   display: flex;
   align-items: center;
+  position: relative;
 }
 .landing .container > a i {
   position: absolute;
   color: var(--clr-light-100);
   bottom: 20px;
   left: 50%;
-  transform: translateY(-50%);
+  transform: translateX(-50%);
   animation: bounce 0.5s infinite alternate ease-out;
   cursor: pointer;
 }
@@ -464,13 +469,20 @@ header nav #dropdown-icon {
   content: "|";
   font-weight: normal;
 }
+.landing .container .text button {
+  color: var(--clr-neutral-100);
+  font-size: var(--fs-300);
+  font-family: inherit;
+  font-weight: bold;
+  margin-top: 25px;
+}
 .landing .container .text button a {
   color: var(--clr-neutral-100);
   font-size: var(--fs-300);
   font-family: inherit;
   font-weight: bold;
 }
-.landing .container .text button a:hover {
+.landing .container .text button:hover a {
   color: var(--clr-light-100);
 }
 
@@ -484,10 +496,10 @@ header nav #dropdown-icon {
 }
 @keyframes bounce {
   from {
-    transform: translateY(0px);
+    transform: translate(-50%, 0px);
   }
   to {
-    transform: translateY(-30px);
+    transform: translate(-50%, -30px);
   }
 }
 .about {
@@ -519,10 +531,11 @@ header nav #dropdown-icon {
 .about .container .card:hover a > i {
   animation: bounce-right var(--trs-duration-s) infinite ease-in;
 }
-.about .container .card i {
-  font-size: var(--fs-1000);
-  margin-bottom: 4rem;
+.about .container .card img {
   display: block;
+  width: 10em;
+  aspect-ratio: 1/1;
+  margin: 0 auto 4rem;
 }
 .about .container .card a > i {
   font-size: var(--fs-200);
@@ -543,7 +556,7 @@ header nav #dropdown-icon {
   padding-bottom: 100px;
 }
 .quality .heading::before {
-  content: "Quality";
+  content: "Qualification";
 }
 .quality .container {
   display: grid;
@@ -570,6 +583,8 @@ header nav #dropdown-icon {
 .quality .container .card span {
   color: var(--clr-secondary-100);
   font-weight: bold;
+  margin-bottom: 20px;
+  display: block;
 }
 .quality .container .card::before {
   content: "";
@@ -582,10 +597,26 @@ header nav #dropdown-icon {
   border-radius: 50%;
 }
 .quality .container .card p {
-  margin-bottom: 0px;
+  margin: 0px;
   max-width: 85%;
   font-size: min(var(--fs-300), var(--fs-400));
   color: var(--clr-secondary-100);
+}
+.quality .container .card ul {
+  all: initial;
+  list-style: none;
+  font-family: inherit;
+  font-size: var(--fs-300);
+  color: var(--clr-secondary-100);
+}
+.quality .container .card > ul > li {
+  margin-block-end: 2rem;
+}
+.quality .container .card > ul > li > ul {
+  margin-block-start: 20px;
+}
+.quality .container .card > ul > li > ul > li {
+  padding-left: 40px;
 }
 
 .skills {
@@ -655,39 +686,32 @@ header nav #dropdown-icon {
   text-align: center;
   display: grid;
   place-items: center;
-}
-.services .container .srv:hover i {
-  transform: scale(1.1);
-  animation: rotate var(--trs-duration-s) var(--trs-duration-f) 1 ease-in-out;
-}
-.services .container .srv i {
-  color: var(--clr-light-100);
-  position: relative;
-  transition: transform var(--trs-duration-f);
-}
-.services .container .srv i::after {
-  content: "";
-  width: 80px;
-  height: 80px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(45deg);
   background-color: var(--clr-neutral-500);
-  z-index: -1;
+  border-radius: 18px;
+}
+.services .container .srv img {
+  width: 100px;
+  aspect-ratio: 1/1;
+  position: relative;
 }
 .services .container .srv h2 {
-  margin-top: 60px;
+  margin: 20px;
   color: var(--clr-secondary-100);
 }
 .services .container .srv p {
-  line-height: 1.5;
-  font-size: 2.1rem;
-  max-width: 380px;
+  line-height: 1.3;
+  font-size: 2rem;
+  max-width: 360px;
+  min-height: 11rem;
+  margin: 0px;
 }
 .services .container .srv a {
   font-size: var(--fs-300);
   color: var(--clr-light-200);
+  margin-top: 20px;
+}
+.services .container .srv:hover a > i {
+  animation: bounce-right var(--trs-duration-s) infinite ease-in;
 }
 
 .gallery {
@@ -709,10 +733,10 @@ header nav #dropdown-icon {
 }
 .gallery .container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+  gap: 1rem;
 }
-.gallery .container .col-3 {
+.gallery .container .col-3.show {
   transform: scale(1);
   transition: transform 0.6s;
 }
@@ -727,7 +751,7 @@ header nav #dropdown-icon {
 .gallery .container .image i {
   cursor: pointer;
   position: absolute;
-  font-size: 15rem;
+  font-size: 5rem;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
@@ -755,7 +779,7 @@ header nav #dropdown-icon {
 }
 .gallery .container .image img {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
 }
 
 .clients {
@@ -1020,12 +1044,12 @@ header nav #dropdown-icon {
     height: calc(100vh + 33rem);
   }
   .landing .container {
-    padding: 25rem 0px 10rem;
+    padding: 30rem 0px;
     flex-direction: column;
     justify-content: center;
   }
   .landing .image {
-    margin-bottom: 75px;
+    margin-bottom: 7.5rem;
   }
   .landing .text {
     text-align: center;
@@ -1060,9 +1084,14 @@ header nav #dropdown-icon {
     column-gap: 5%;
     row-gap: 20px;
   }
+  .gallery .container {
+    grid-template-columns: repeat(auto-fit, 18%);
+    gap: 2%;
+    row-gap: 10px;
+  }
 }
-@media (min-width: 1200px) and (max-width: 1245px) {
+@media (min-width: 1200px) and (max-width: 1260px) {
   header nav .logo h2 {
-    font-size: var(--fs-400);
+    font-size: var(--fs-300);
   }
 }

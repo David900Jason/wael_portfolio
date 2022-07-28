@@ -1,3 +1,26 @@
+const filterButtons = document.querySelectorAll(".gallery .navigation button");
+const aboutHeadings = document.querySelectorAll(".about .card h3");
+const aboutLinks = document.querySelectorAll(".about .card a");
+
+// Click on Link
+aboutLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    console.log(link.parentElement.dataset.about);
+    matchFilter(link.parentElement.dataset.about);
+  });
+});
+
+// Match Heading InnerText with the filter Button's
+function matchFilter(e) {
+  filterButtons.forEach((button) => {
+    if (e === button.innerText) {
+      console.log("Matched");
+      button.click();
+    }
+  });
+}
+
+// Click on found button
 const footerSpan = document.querySelector(".footer .copyright span");
 
 (function () {
@@ -8,8 +31,9 @@ const galleryContainer = document.querySelector(".gallery .container");
 const galleryImgs = document.querySelectorAll(".gallery .col-3");
 const galleryPlusIcon = document.querySelectorAll(".gallery .image i");
 const images = Array.from(galleryImgs);
-const filterButtons = document.querySelectorAll(".gallery .navigation button");
 let orderRange = [...images.keys()];
+
+console.log(filterButtons);
 
 shuffleImgs(orderRange);
 
@@ -27,6 +51,10 @@ galleryPlusIcon.forEach((icon) => {
       let screen = document.createElement("div");
       screen.className = `screen`;
       screen.appendChild(icon.nextElementSibling.cloneNode(true));
+      screen.querySelector("img").classList.add("collapse");
+      setTimeout(() => {
+        screen.querySelector("img").classList.remove("collapse");
+      }, 500);
       document.body.appendChild(screen);
     }
   });
@@ -52,14 +80,26 @@ function filterImgs(filterText) {
     galleryImgs.forEach((img) => {
       if (img.classList.contains("hidden")) {
         img.classList.remove("hidden");
+        setTimeout(() => {
+          img.style.display = "block";
+          img.classList.add("show");
+        }, 600);
       }
     });
   } else {
     galleryImgs.forEach((img) => {
       if (img.dataset.image == filterText.toLowerCase()) {
         img.classList.remove("hidden");
+        setTimeout(() => {
+          img.style.display = "block";
+          img.classList.add("show");
+        }, 600);
       } else {
         img.classList.add("hidden");
+        setTimeout(() => {
+          img.style.display = "none";
+          img.classList.remove("show");
+        }, 600);
       }
     });
   }
@@ -67,11 +107,14 @@ function filterImgs(filterText) {
 
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("screen")) {
-    e.target.remove();
+    e.target.querySelector("img").classList.add("collapse");
+    setTimeout(() => {
+      e.target.remove();
+    }, 600);
   }
 });
 
-const text = "Quality Manager";
+const text = "Quality Assurance Manager";
 const typeElement = document.querySelector(".landing .text h2");
 let count = 0;
 
